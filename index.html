@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>일하는 성향 분석</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --ink:#1d1b22; --sub:#7a7684; --faint:#b3aebb; --line:rgba(120,100,140,.12);
+  --card:rgba(255,255,255,.72); --lav:#8a78e6; --lav-soft:#efe9fb;
+  --pill:linear-gradient(90deg,#ece4fb 0%,#f6e0ec 55%,#fbe4d8 100%);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:#f8f1ea}
+body{margin:0;color:var(--ink);min-height:100svh;
+  background:linear-gradient(165deg,#fbf6f0 0%,#f7ece4 40%,#f1e8f1 75%,#ece7f6 100%) fixed;
+  font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+.app{max-width:430px;margin:0 auto;min-height:100svh;position:relative}
+.screen{display:none;min-height:100svh;padding:28px 24px 40px;flex-direction:column}
+.screen.on{display:flex;animation:fadeIn .5s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.brand{font-size:11px;letter-spacing:.22em;color:var(--faint);font-weight:600;text-align:center}
+
+/* ── blob ── */
+.orb{--s:1;--a:0;--spd:1;position:relative;transform:scale(var(--s));will-change:transform}
+.orb .halo{position:absolute;inset:-6% -14% -10% 4%;border-radius:50%;
+  background:radial-gradient(circle at 55% 50%,rgba(200,180,240,.55),rgba(220,200,245,.25) 50%,transparent 72%);
+  filter:blur(26px);opacity:calc(.7 + var(--a)*.6);
+  animation:morph2 calc(9s/var(--spd)) ease-in-out infinite}
+.orb .blob{position:absolute;inset:0;
+  background:radial-gradient(circle at 62% 52%,#d4c3f1 0%,#cdb9ef 38%,rgba(214,198,244,.85) 62%,rgba(226,214,248,.55) 100%);
+  box-shadow:inset 9px 5px 12px -5px rgba(255,246,255,.95),inset 3px 2px 4px -1px rgba(255,255,255,.9),
+             inset -30px -26px 50px rgba(190,170,236,.35);
+  filter:blur(1.5px);
+  -webkit-mask-image:radial-gradient(circle at 32% 38%,#000 42%,rgba(0,0,0,.4) 72%,transparent 96%);
+          mask-image:radial-gradient(circle at 32% 38%,#000 42%,rgba(0,0,0,.4) 72%,transparent 96%);
+  animation:morph calc(8s/var(--spd)) ease-in-out infinite,turn calc(26s/var(--spd)) linear infinite}
+.orb .hi{position:absolute;inset:22% 18% 26% 30%;border-radius:50%;filter:blur(18px);
+  background:radial-gradient(circle,rgba(244,236,255,.9),transparent 70%);
+  transform:translate(calc(var(--a)*10%),calc(var(--a)*-8%)) scale(calc(.9 + var(--a)*.35))}
+@keyframes morph{
+  0%,100%{border-radius:47% 53% 58% 42%/44% 46% 54% 56%}
+  25%{border-radius:58% 42% 46% 54%/55% 38% 62% 45%}
+  50%{border-radius:41% 59% 52% 48%/48% 57% 43% 52%}
+  75%{border-radius:53% 47% 40% 60%/39% 52% 48% 61%}}
+@keyframes morph2{0%,100%{border-radius:55% 45% 48% 52%/50% 44% 56% 50%}50%{border-radius:44% 56% 57% 43%/58% 50% 50% 42%}}
+@keyframes turn{to{rotate:360deg}}
+.orb-wrap{display:flex;justify-content:center}
+.orb.lg{width:min(56vw,224px);height:min(56vw,224px)}
+.orb.xl{width:min(64vw,256px);height:min(64vw,256px);--spd:2.2}
+.orb.av{width:30px;height:30px;flex:0 0 30px}
+.orb.av .halo{filter:blur(6px)} .orb.av .hi{filter:blur(5px)}
+.orb.av .blob{box-shadow:inset 3px 2px 3px -1px rgba(255,246,255,.95);filter:none}
+
+/* ── S1 ── */
+#s1{justify-content:space-between;text-align:center}
+#s1 .mid{display:flex;flex-direction:column;align-items:center;gap:52px;margin-top:6vh}
+h1{font-size:clamp(18px,5.5vw,23px);line-height:1.5;font-weight:700;letter-spacing:-.03em;margin:0}
+h1 span{white-space:nowrap}
+.ttl{display:flex;flex-direction:column;align-items:center;gap:12px}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:14px;color:var(--ink)}
+.live i{width:7px;height:7px;border-radius:50%;background:#7a66e8;animation:ping 1.8s ease-out infinite}
+.live b{font-weight:700;font-variant-numeric:tabular-nums;display:inline-block;transition:transform .25s,color .25s}
+.live b.bump{transform:translateY(-2px);color:#7a66e8}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(122,102,232,.45)}100%{box-shadow:0 0 0 9px rgba(122,102,232,0)}}
+.field{width:100%;display:flex;flex-direction:column;gap:12px}
+.input{display:flex;align-items:center;gap:4px;background:var(--card);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:16px;padding:0 16px;height:54px;transition:border-color .2s,box-shadow .2s}
+.input:focus-within{border-color:#cfc2f3;box-shadow:0 0 0 4px rgba(220,208,250,.5)}
+.input span{color:var(--faint);font-size:16px}
+.input input{flex:1;border:0;outline:0;font:inherit;font-size:16px;background:transparent;color:var(--ink);min-width:0}
+.pill{appearance:none;border:0;width:100%;height:54px;border-radius:999px;background:var(--ink);color:#fff;font:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:opacity .2s,transform .1s,background .2s;box-shadow:0 10px 24px -12px rgba(29,27,34,.55)}
+.pill:active{transform:scale(.98)}
+.pill:disabled{background:#cfccd6;box-shadow:none;cursor:default}
+.consent{display:flex;gap:10px;align-items:flex-start;text-align:left;font-size:13px;color:var(--sub);cursor:pointer}
+.consent input{appearance:none;flex:0 0 18px;height:18px;margin:2px 0 0;border:1.5px solid var(--faint);border-radius:5px;display:grid;place-items:center;cursor:pointer;background:rgba(255,255,255,.8)}
+.consent input:checked{background:var(--ink);border-color:var(--ink)}
+.consent input:checked::after{content:"";width:9px;height:5px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.consent button{border:0;background:none;padding:0;font:inherit;color:var(--lav);cursor:pointer}
+
+/* ── S2 ── */
+#s2{justify-content:center;align-items:center;gap:44px;text-align:center}
+#s2 .who{font-size:22px;font-weight:700;letter-spacing:-.02em}
+#s2 .msg{font-size:15px;color:var(--sub);margin-top:-30px;min-height:24px;transition:opacity .3s}
+
+/* ── S3 chat ── */
+#s3{padding:0 0 32px}
+.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:14px 20px;
+  background:rgba(250,244,240,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.bar b{font-size:15px;display:block;line-height:1.3}
+.bar span{font-size:12px;color:var(--sub)}
+.bar span.ok{color:#5aa77a}
+.chat{display:flex;flex-direction:column;gap:8px;padding:20px 16px 0}
+.row{display:flex;gap:8px;align-items:flex-end;animation:pop .38s cubic-bezier(.2,.8,.3,1.2) both}
+.row.me{justify-content:flex-end}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+.bub{max-width:82%;background:var(--card);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.8);box-shadow:0 4px 16px -10px rgba(120,90,160,.35);
+  border-radius:20px 20px 20px 6px;padding:12px 15px;font-size:15px;line-height:1.65}
+.row.me .bub{background:var(--ink);color:#fff;border-color:var(--ink);border-radius:20px 20px 6px 20px}
+.bub .n{display:block;font-size:11.5px;font-weight:700;color:var(--lav);margin-bottom:2px}
+.sys{align-self:center;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--sub);background:rgba(255,255,255,.55);border-radius:999px;padding:5px 12px;margin:12px 0 4px;animation:pop .38s ease both}
+.typing{display:inline-flex;gap:4px;padding:15px 16px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--faint);animation:dot 1s ease-in-out infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+.ask{display:flex;flex-direction:column;gap:12px}
+.scores{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;margin-top:4px}
+.scores button{appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.9);border-radius:50%;aspect-ratio:1;font:inherit;font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer;padding:0;transition:all .2s}
+.scores button.on{background:var(--ink);border-color:var(--ink);color:#fff;transform:scale(1.12)}
+.scores.lock button{pointer-events:none}
+.scale{display:flex;justify-content:space-between;font-size:11px;color:var(--faint)}
+.wide .bub{max-width:100%;flex:1}
+.cta{padding:16px 16px 0;animation:pop .4s ease both}
+.stat{margin:20px 16px 0;padding:26px 20px 22px;border-radius:26px;text-align:center;
+  background:linear-gradient(160deg,rgba(255,255,255,.85),rgba(246,238,255,.75));border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 24px 50px -28px rgba(120,90,190,.55);display:flex;flex-direction:column;align-items:center;gap:10px;
+  opacity:0;transform:translateY(16px) scale(.98);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.3,1)}
+.stat.in{opacity:1;transform:none}
+.stat .mine{font-size:18px;font-weight:700}
+.stat .lbl{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--sub);margin-top:8px}
+.stat .lbl i{width:7px;height:7px;border-radius:50%;background:#7a66e8;animation:ping 1.8s ease-out infinite}
+.odo-row{position:relative;display:flex;align-items:baseline;gap:4px}
+.odo{display:flex;font-size:52px;font-weight:800;letter-spacing:-.03em;line-height:1;height:1em;overflow:hidden;font-variant-numeric:tabular-nums}
+.odo .d{display:block;height:1em;overflow:hidden}
+.odo .col{display:flex;flex-direction:column;transition:transform .6s cubic-bezier(.2,.8,.3,1)}
+.odo .col span,.odo .c{height:1em;line-height:1;display:block}
+.unit{font-size:20px;font-weight:700}
+.plus{position:absolute;right:-30px;top:-6px;font-style:normal;font-size:13px;font-weight:700;color:#7a66e8;opacity:0}
+.plus.go{animation:plus .9s ease-out}
+@keyframes plus{0%{opacity:0;transform:translateY(6px)}25%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
+.stat .avg{font-size:14.5px;color:#4a4656;line-height:1.6}
+.stat .avg b{color:var(--ink)}
+.dots{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;width:100%;max-width:240px;margin-top:6px}
+.dots i{aspect-ratio:1;border-radius:50%;background:rgba(160,140,200,.18);transition:background .3s}
+.res.go .dots i.f{background:linear-gradient(135deg,#b8a6ff,#f2b6d6)}
+
+/* ── S5 ── */
+#s5{gap:26px;padding-top:12vh}
+.rv{opacity:0;transform:translateY(10px);transition:opacity .9s ease,transform .9s ease}
+.rv.in{opacity:1;transform:none}
+.big{font-size:26px;line-height:1.45;font-weight:800;letter-spacing:-.03em}
+.body{font-size:16px;line-height:1.85;color:#3c3846}
+.body b{color:var(--ink)}
+.more{margin-top:28px;display:flex;flex-direction:column;gap:12px}
+.more .t{font-size:13px;font-weight:700;color:var(--sub);letter-spacing:.04em}
+.kit{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid rgba(255,255,255,.8);border-radius:18px;padding:14px;text-decoration:none;color:inherit}
+.kit .n{flex:0 0 48px;height:48px;border-radius:12px;background:var(--lav-soft);color:var(--lav);display:grid;place-items:center;font-size:12px;font-weight:800}
+.kit b{display:block;font-size:14.5px;line-height:1.4}
+.kit span{font-size:12.5px;color:var(--sub)}
+.kit .go{margin-left:auto;color:var(--faint)}
+
+/* ── sheet ── */
+.sheet{position:fixed;inset:0;background:rgba(29,27,34,.3);display:none;align-items:flex-end;justify-content:center;z-index:10}
+.sheet.on{display:flex}
+.sheet .in{background:#fff;width:100%;max-width:430px;border-radius:24px 24px 0 0;padding:24px 24px 32px;font-size:14px;color:var(--sub);animation:up .3s ease both}
+.sheet h3{margin:0 0 12px;color:var(--ink);font-size:16px}
+.sheet table{width:100%;border-collapse:collapse;margin-bottom:18px}
+.sheet td{padding:8px 0;border-bottom:1px solid #eee;vertical-align:top}
+.sheet td:first-child{width:80px;color:var(--ink);font-weight:600}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+
+
+/* ── S1 심장박동 오브 (레퍼런스 이미지 그대로) ── */
+body.pale{background:#f5f6f9}
+.hb{width:min(84vw,340px);aspect-ratio:420/432;margin:-30px 0 -40px;display:flex;justify-content:center;
+  mix-blend-mode:multiply;filter:saturate(1.9) contrast(1.12) brightness(.97)}
+.hb img{width:100%;height:100%;display:block;transform-origin:50% 50%;
+  -webkit-mask-image:radial-gradient(closest-side,#000 70%,transparent 100%);mask-image:radial-gradient(closest-side,#000 70%,transparent 100%);
+  animation:heartbeat 2.1s ease-in-out infinite}
+@keyframes heartbeat{
+  0%{transform:scale(1);filter:blur(0)}
+  10%{transform:scale(1.045);filter:blur(1px)}
+  20%{transform:scale(1.01);filter:blur(.2px)}
+  30%{transform:scale(1.03);filter:blur(.7px)}
+  50%,100%{transform:scale(1);filter:blur(0)}}
+/* 분석 화면: 같은 오브, 더 진하고 격동적으로 */
+.hb.fast{width:min(92vw,370px);margin:0;filter:saturate(2.3) contrast(1.2) brightness(.93);animation:sway 2.6s ease-in-out infinite}
+.hb.fast img{animation:storm .62s cubic-bezier(.3,0,.3,1) infinite}
+@keyframes storm{
+  0%{transform:scale(1) rotate(0);filter:blur(0)}
+  14%{transform:scale(1.13) rotate(-4deg);filter:blur(3px)}
+  28%{transform:scale(1.02) rotate(2deg);filter:blur(.6px)}
+  42%{transform:scale(1.09) rotate(-2deg);filter:blur(2px)}
+  70%,100%{transform:scale(1) rotate(0);filter:blur(0)}}
+@keyframes sway{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(-7px,5px) rotate(-6deg)}50%{transform:translate(5px,-6px) rotate(5deg)}75%{transform:translate(6px,6px) rotate(-3deg)}}
+
+/* ── 숫자 시안 B: 하단 시트 / C: 전체 화면 ── */
+.stat.vb{position:fixed;left:50%;bottom:0;translate:-50% 0;width:100%;max-width:430px;margin:0;z-index:8;
+  border-radius:28px 28px 0 0;padding:26px 22px calc(22px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.82);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);
+  box-shadow:0 -20px 50px -24px rgba(120,90,190,.45);opacity:1;transform:translateY(105%);transition:transform .7s cubic-bezier(.2,.8,.3,1)}
+.stat.vb.in{transform:none}
+body.svb #s3{padding-bottom:420px}
+.stat.vc{position:fixed;inset:0;margin:0;z-index:8;border-radius:0;border:0;justify-content:center;gap:14px;padding:32px 28px;
+  background:rgba(245,246,249,.78);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:none;transform:none;opacity:0;transition:opacity .8s ease}
+.stat.vc.in{opacity:1}
+.stat.vc .odo{font-size:80px}
+.stat.vc .unit{font-size:26px}
+.stat.vc .mine{font-size:20px}
+.stat .cta{padding:10px 0 0;width:100%}
+/* 시안 전환 (검토용, 실제 배포 시 삭제) */
+.devsw{position:fixed;right:10px;bottom:10px;z-index:20;display:flex;gap:4px;background:rgba(29,27,34,.82);padding:5px;border-radius:999px;font-size:11px}
+.devsw a{color:#fff;text-decoration:none;padding:4px 9px;border-radius:999px;opacity:.6}
+.devsw a.on{background:#fff;color:#1d1b22;opacity:1}
+
+/* 번호 위치 시안 */
+.bub .ni{color:var(--lav);font-weight:800;margin-right:2px}
+.ts{flex:0 0 auto;font-size:11px;color:var(--faint);font-weight:600;padding-bottom:4px;font-variant-numeric:tabular-nums}
+.pn{display:none;flex:0 0 auto;white-space:nowrap;font-size:13px;color:var(--sub);font-variant-numeric:tabular-nums}
+.pn b{color:var(--ink);font-size:16px}
+.pline{display:none;position:absolute;left:0;bottom:-1px;height:2px;width:0;background:linear-gradient(90deg,#b8a6ff,#f2b6d6);transition:width .5s ease}
+body.nbar .pn,body.nbar .pline{display:block}
+.devsw span{color:#fff;opacity:.45;padding:4px 4px 4px 8px}
+
+/* 정확도 평가 시트 */
+.rate{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;transition:opacity .3s}
+.rate.out{opacity:0}
+.rate[hidden]{display:none}
+.rk{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--lav);background:var(--lav-soft);padding:4px 11px;border-radius:999px}
+.rt{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-top:4px}
+.rs{font-size:13.5px;color:var(--sub);margin-top:-4px}
+.meter{display:flex;align-items:baseline;gap:5px;margin:6px 0 4px}
+.meter b{font-size:48px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.meter span{font-size:15px;color:var(--faint);font-weight:700}
+.seg{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;width:100%;align-items:end;touch-action:none;user-select:none;-webkit-user-select:none}
+.seg button{appearance:none;border:0;padding:0;background:none;display:flex;flex-direction:column;align-items:center;gap:6px;font:inherit;font-size:11.5px;color:var(--faint);cursor:pointer}
+.seg button i{display:block;width:100%;border-radius:7px;background:rgba(160,140,200,.16);transform-origin:bottom;transition:background .15s,transform .15s}
+.seg button.f i{background:linear-gradient(180deg,#c3b4ff,#f2b6d6)}
+.seg button.on i{transform:scaleY(1.15)}
+.seg button.on{color:var(--ink);font-weight:800}
+.rate .scale{width:100%}
+.rate .pill{margin-top:8px}
+.res{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;animation:fadeIn .5s ease both}
+.res[hidden]{display:none}
+
+/* 바텀시트 접기 */
+.grab{display:none;width:100%;justify-content:center;padding:0 0 6px;margin-top:-12px;cursor:pointer}
+.grab i{width:38px;height:5px;border-radius:3px;background:rgba(29,27,34,.18)}
+.stat.vb .grab{display:flex}
+.pk{display:none;width:100%;align-items:center;gap:8px;font-size:13.5px;color:var(--sub);cursor:pointer;padding:2px 2px 0}
+.pk i{width:7px;height:7px;border-radius:50%;background:#7a66e8;flex:0 0 7px;animation:ping 1.8s ease-out infinite}
+.pk b{color:var(--ink);font-variant-numeric:tabular-nums}
+.pk em{margin-left:auto;font-style:normal;font-size:16px;color:var(--ink)}
+.stat.peek .pk{display:flex}
+.stat.peek .res,.stat.peek .cta,.stat.peek .rate{display:none}
+.stat.vb.peek{padding-top:20px;padding-bottom:calc(18px + env(safe-area-inset-bottom))}
+body.on5 .stat .cta{display:none}
+/* 반전 페이지 */
+#s5{gap:30px;padding-top:14vh;padding-bottom:150px}
+#s5 .kick{font-size:17px;font-weight:600;color:var(--sub);line-height:1.6}
+#s5 .kick b{color:var(--ink)}
+#s5 .big{font-size:30px;line-height:1.4;font-weight:800;letter-spacing:-.035em}
+#s5 .big .cnt5{font-variant-numeric:tabular-nums;color:#6c5ae0}
+#s5 .big2{font-size:24px;line-height:1.45;font-weight:800;letter-spacing:-.03em;margin-top:18px}
+#s5 .q{font-size:22px;line-height:1.5;font-weight:800;letter-spacing:-.03em;margin-top:22px;padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* 반전 v2 */
+#s5{padding-bottom:0}
+#s5 .mid{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-top:-14px}
+#s5 .q{text-align:center;border:0;padding:12px 0 0;margin-top:40px}
+#s5 .kits{margin-top:8px;padding-bottom:150px;display:flex;flex-direction:column;gap:12px}
+#s5 .kit{display:flex;gap:14px;align-items:center;background:#16141b;border:1px solid #16141b;box-shadow:0 14px 30px -18px rgba(22,20,27,.6);border-radius:18px;padding:12px;color:#fff;text-decoration:none}
+#s5 .kit .th{flex:0 0 76px;height:76px;border-radius:12px;background:#2a2733 center/cover no-repeat}
+#s5 .kit .th.ph{display:grid;place-items:center;font-size:20px;font-weight:800;color:rgba(255,255,255,.55);background:linear-gradient(135deg,#3a3350,#5a3f5e)}
+#s5 .kit .tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+#s5 .kit em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;color:#b9a9ff}
+#s5 .kit b{font-size:15px;line-height:1.4;color:#fff}
+#s5 .kit span{font-size:12.5px;color:rgba(255,255,255,.55)}
+
+/* 묶음 사이 확인 버튼 */
+.chip{appearance:none;border:0;background:var(--ink);color:#fff;border-radius:999px;padding:11px 20px;font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;
+  box-shadow:0 10px 22px -12px rgba(29,27,34,.6);animation:nudge 2.2s ease-in-out 1.2s infinite}
+.chip:active{transform:scale(.97)}
+@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+
+/* 입력창(미리 써진 답장) */
+.composer{position:fixed;left:50%;bottom:0;translate:-50% 0;width:100%;max-width:430px;z-index:7;display:flex;gap:8px;align-items:center;
+  padding:10px 14px calc(12px + env(safe-area-inset-bottom));background:rgba(250,246,244,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-top:1px solid var(--line);cursor:pointer;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.3,1)}
+.composer.on{transform:none}
+.composer[hidden]{display:none}
+.cbox{flex:1;display:flex;align-items:center;height:46px;padding:0 7px 0 16px;background:#fff;border:1px solid var(--line);border-radius:23px;font-size:15.5px;color:var(--ink)}
+.caret{display:inline-block;width:2px;height:20px;margin-left:2px;background:#6c5ae0;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.send{appearance:none;border:0;margin-left:auto;flex:0 0 32px;height:32px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 18px -10px rgba(29,27,34,.6)}
+.composer:active .send{transform:scale(.94)}
+body.typing #s3{padding-bottom:110px}
+
+/* ── dark scene (채팅 화면) ── */
+body{transition:background-color .8s}
+.app{z-index:1}
+.scene{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 1s ease;overflow:hidden;
+  background:radial-gradient(120% 85% at 50% 30%,#2b1631 0%,#140e25 45%,#07080f 100%)}
+body.dark{background:#07080f}
+body.dark .scene{opacity:1}
+.scene .gb{position:absolute;left:50%;top:36%;width:min(118vw,540px);aspect-ratio:1;translate:-50% -50%;filter:blur(48px);opacity:.9;
+  background:
+    radial-gradient(circle at 30% 42%,#ff7d6c 0 20%,transparent 46%),
+    radial-gradient(circle at 70% 30%,#5b5ce2 0 19%,transparent 48%),
+    radial-gradient(circle at 50% 70%,#f3c56a 0 22%,transparent 50%),
+    radial-gradient(circle at 58% 50%,#b8468a 0 16%,transparent 52%);
+  animation:morph 14s ease-in-out infinite,turn 40s linear infinite,gbreath 7s ease-in-out infinite}
+@keyframes gbreath{0%,100%{scale:1}50%{scale:1.08}}
+.scene::after{content:"";position:absolute;inset:0;opacity:.18;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+body.dark #s3{color:#fff}
+body.dark #s3 .bar{background:rgba(18,14,30,.35);border-bottom:1px solid rgba(255,255,255,.08);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%)}
+body.dark #s3 .bar span{color:rgba(255,255,255,.55)}
+body.dark #s3 .bar span.ok{color:#8fe0b0}
+body.dark #s3 .bub{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.93);
+  backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);
+  box-shadow:0 10px 30px -14px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.14)}
+body.dark #s3 .bub .n{color:#ffb3a3}
+body.dark #s3 .row.me .bub{background:rgba(255,255,255,.9);color:var(--ink);border-color:rgba(255,255,255,.9)}
+body.dark #s3 .sys{background:rgba(255,255,255,.08);color:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+body.dark #s3 .typing i{background:rgba(255,255,255,.65)}
+body.dark #s3 .scores button{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.22);color:#fff}
+body.dark #s3 .scores button.on{background:#fff;border-color:#fff;color:var(--ink)}
+body.dark #s3 .scale{color:rgba(255,255,255,.45)}
+body.dark #s3 .stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+  backdrop-filter:blur(24px) saturate(150%);-webkit-backdrop-filter:blur(24px) saturate(150%);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.15)}
+body.dark #s3 .stat .lbl{color:rgba(255,255,255,.62)}
+body.dark #s3 .stat .lbl i{background:#ff8a73}
+body.dark #s3 .stat .avg{color:rgba(255,255,255,.75)}
+body.dark #s3 .stat .avg b{color:#fff}
+body.dark #s3 .plus{color:#ffcf8a}
+body.dark #s3 .dots i{background:rgba(255,255,255,.12)}
+body.dark #s3 .stat.in .dots i.f{background:linear-gradient(135deg,#ff8a73,#f3c56a)}
+body.dark #s3 .orb.av .blob{background:radial-gradient(circle at 40% 40%,#ffb08f,#c46aa8 55%,#6b63e0)}
+body.dark #s3 .orb.av .halo{background:radial-gradient(circle,rgba(255,140,120,.5),transparent 70%)}
+
+@media (prefers-reduced-motion:reduce){
+  .scene .gb,.hb img,.hb.fast{animation:none!important}
+  .orb .blob,.orb .halo{animation:none!important}
+  .rv{transition:none;opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="pale">
+<div class="scene"><div class="gb"></div></div>
+<div class="app">
+
+  <!-- S1 입력 -->
+  <section class="screen on" id="s1">
+    <div class="brand">RE:FEEEL</div>
+    <div class="mid">
+      <div class="ttl">
+        <h1><span>인스타 계정만 입력하면</span><br><span>당신의 일하는 성향이 분석됩니다</span></h1>
+        <div class="live"><i></i><span>지금까지 <b class="cnt">768</b>명이 분석했습니다</span></div>
+      </div>
+      <div class="hb"><img src="orb_ref.png" alt=""></div>
+    </div>
+    <div class="field">
+      <label class="input"><span>@</span><input id="handle" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="인스타그램 아이디"></label>
+      <button class="pill" id="go" disabled>분석하기</button>
+      <label class="consent"><input type="checkbox" id="agree"><span>[필수] 개인정보 수집·이용에 동의합니다. <button type="button" id="openSheet">내용 보기</button></span></label>
+    </div>
+  </section>
+
+  <!-- S2 분석 -->
+  <section class="screen" id="s2">
+    <div class="hb fast"><img src="orb_ref.png" alt=""></div>
+    <div class="who" id="who">@</div>
+    <div class="msg" id="msg">최근 게시물을 불러오고 있습니다…</div>
+  </section>
+
+  <!-- S3 대화형 결과 + 점수 -->
+  <section class="screen" id="s3">
+    <div class="bar">
+      <div class="orb av"></div>
+      <div style="flex:1"><b id="rname">@ 님의 분석 결과</b><span id="status">입력하신 인스타그램 계정을 토대로 일하는 성향 20가지를 분석했습니다.</span></div><div class="pn" id="pnw"><b id="pn">0</b>/20</div><i class="pline" id="pline"></i>
+    </div>
+    <div class="chat" id="chat"></div>
+    <div class="composer" id="composer" hidden><div class="cbox"><span id="ctext"></span><i class="caret"></i><button type="button" class="send" aria-label="보내기"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 10 4 15 9 20"></polyline><path d="M20 4v7a4 4 0 0 1-4 4H4"></path></svg></button></div></div>
+    <div class="stat" id="stat" hidden>
+      <div class="grab" id="grab"><i></i></div>
+      <div class="pk" id="pk"><i></i><span>지금까지 <b class="cnt">768</b>명 · 평균 9점 · 20개 중 18개</span><em>⌃</em></div>
+      <div class="rate" id="rate">
+        <div class="rk">정확도 평가</div>
+        <div class="rt">분석이 얼마나 정확했나요?</div>
+        <div class="rs">0~10점으로 정확도를 평가해주세요.</div>
+        <div class="meter"><b id="mval">-</b></div>
+        <div class="seg" id="seg"></div>
+        <div class="scale"><span>전혀 아니다</span><span>정말 맞다</span></div>
+        <button class="pill" id="rateGo" disabled>평가 완료</button>
+      </div>
+      <div class="res" id="res" hidden>
+      <div class="mine"><b id="myScore">10</b>점을 주셨네요.</div>
+      <div class="lbl"><i></i>지금까지 분석한 사람</div>
+      <div class="odo-row"><div class="odo" id="odo"></div><span class="unit">명</span><em class="plus" id="plus">+1</em></div>
+      <div class="avg">평균 <b>9점</b>으로 20개 중 <b>18개</b>가 맞다고 평가했습니다.</div>
+      <div class="dots" id="dots"></div>
+      </div>
+    </div>
+    <div class="cta" id="cta" hidden><button class="pill" id="toReveal">이 결과가 어떻게 나왔는지가 궁금하다면?</button></div>
+  </section>
+
+  <!-- S5 반전 + 관련 RE:KIT -->
+  <section class="screen" id="s5">
+    <div class="rv kick"><span class="h5">@</span> 님이 <b class="s5s"></b>점이라고 평가한 이 결과.</div>
+    <div class="rv big">미안해요.<br>사실 <span class="cnt5">768</span>명 모두에게<br>똑같은 화면을 보여줬습니다.</div>
+    <div class="rv mid">그리고 그들도 평균 9점을 줬죠.</div>
+    <div class="rv body">당신의 인스타그램 계정은 한 번도 열어보지 않았습니다.<br>당신이 누군지 아무 정보도 없어요.</div>
+    <div class="rv big2">그런데 왜<br>내 이야기 같았을까요?</div>
+    <div class="rv body">1949년, 심리학자 버트럼 포러는 학생 39명에게 「당신의 성격 검사 결과」를 한 장씩 나눠줬습니다. 사실은 모두 같은 글이었죠. 학생들이 매긴 정확도는 5점 만점에 평균 4.26점이었습니다.<br><br>누구에게나 해당하는 말을, 그 사람만의 이야기처럼 건네는 기술. 점술가들은 이걸 <b>콜드리딩</b>이라고 부릅니다.</div>
+    <div class="rv big2">잘 파는 사람들은<br>이 기술을 압니다.</div>
+    <div class="rv body">고객이 "어, 내 얘기네" 하는 순간, 광고는 더 이상 광고로 읽히지 않으니까요. 방금 <span class="h5">@</span> 님이 그랬던 것처럼요.</div>
+    <div class="rv q">당신의 고객도,<br>방금의 당신처럼 고개를 끄덕이고 있나요?<br><br>더 알고 싶다면</div>
+    <div class="kits rv">
+      <a class="kit" href="https://refeeel.com/rekit005" target="_blank" rel="noopener"><div class="th" style="background-image:url('https://i.pinimg.com/736x/41/2f/ec/412fec8f59b4818d37cf2e102652f97a.jpg')"></div><div class="tx"><em>RE:KIT 5</em><b>어떻게 제 마음을 아셨어요?</b><span>점쟁이와 마케터가 같이 쓰는 기술</span></div></a>
+      <a class="kit" href="https://refeeel.com/rekit099" target="_blank" rel="noopener"><div class="th ph">99</div><div class="tx"><em>RE:KIT 99</em><b>상대를 모르는데 설득을 한다?</b><span>수백 년간 사람을 설득해온 콜드리딩은 사기일까</span></div></a>
+      <a class="kit" href="https://refeeel.com/rekit100" target="_blank" rel="noopener"><div class="th ph">100</div><div class="tx"><em>RE:KIT 100</em><b>보면 산다? 우리가 하루에 보는 게 몇 갠데</b><span>공감 다음, 고객이 빠져나가는 자리</span></div></a>
+    </div>
+  </section>
+
+</div>
+
+<div class="sheet" id="sheet">
+  <div class="in">
+    <h3>개인정보 수집·이용 동의</h3>
+    <table>
+      <tr><td>수집 항목</td><td>인스타그램 아이디</td></tr>
+      <tr><td>이용 목적</td><td>성향 분석 결과 제공</td></tr>
+      <tr><td>보유 기간</td><td>OO개월 후 파기</td></tr>
+    </table>
+    <p style="margin:0 0 18px">동의를 거부할 수 있으며, 거부 시 분석을 이용할 수 없습니다.</p>
+    <button class="pill" id="closeSheet">확인</button>
+  </div>
+</div>
+
+<script>
+var GROUPS = [
+  ["성과를 보는 기준","@ID 님의 게시물에서 가장 먼저 보인 건, 성과를 보는 기준이었습니다.",[
+    "돈을 중요하게 생각하지만, 사실 돈 자체보다 '내가 만든 것이 시장에서 인정받고 있다'는 느낌에 더 크게 반응하는 편입니다.",
+    "매출이나 숫자가 잘 나오면 안심하기보다 '이게 계속 유지될까?'라는 생각이 바로 따라오는 편입니다.",
+    "남들에게는 장기적으로 봐야 한다고 말하면서도, 자기 콘텐츠나 광고 성과는 올린 지 얼마 안 돼서 몇 번씩 확인하는 편입니다.",
+    "일이 잘될 때는 더 크게 만들 생각부터 하고, 일이 안 될 때는 '내가 방향을 완전히 잘못 잡은 건 아닐까'까지 생각이 내려가는 편입니다.",
+    "경쟁자를 신경 쓰지 않으려 하지만, 비슷한 사람이 갑자기 잘되면 한 번쯤은 '저 사람은 뭘 했지?' 하고 찾아보는 편입니다."]],
+  ["결정을 내리는 방식","결정을 내리는 방식에서도 뚜렷한 패턴이 있었습니다.",[
+    "결정을 빨리 내리는 사람처럼 보이지만, 중요한 결정일수록 이미 답을 정해놓고도 자료를 하나만 더 찾아보는 편입니다.",
+    "변화를 좋아한다고 생각하지만, 내가 선택한 변화는 좋아해도 내가 통제할 수 없는 변화에는 유난히 스트레스를 받습니다.",
+    "자신의 감각을 믿는 편인데도, 결과가 안 나오면 그동안 확신했던 것까지 갑자기 의심하기 시작합니다.",
+    "칭찬을 들으면 기분은 좋지만, 그대로 믿기보다는 '그냥 좋게 말해주는 건 아닐까?' 하고 한 번 걸러 듣는 편입니다.",
+    "다른 사람의 브랜드나 콘텐츠를 볼 때는 문제점이 잘 보이는데, 정작 내 것을 볼 때는 너무 가까이 있어서 무엇을 고쳐야 할지 헷갈릴 때가 있습니다."]],
+  ["일하는 방식","일하는 방식에서는 조금 다른 면이 보였습니다.",[
+    "누군가에게 일을 맡기고 싶어 하면서도, 막상 맡기면 내가 하는 것만큼 디테일하지 않은 게 보여서 다시 직접 손대는 경우가 많습니다.",
+    "쉬어야 한다는 건 알지만, 아무것도 하지 않고 있으면 쉰다는 느낌보다 '시간을 버리고 있다'는 느낌이 먼저 듭니다.",
+    "새로운 아이디어가 생기면 굉장히 흥분하지만, 이미 하고 있는 일을 끝내는 것보다 새로운 걸 시작하는 쪽이 더 재미있게 느껴질 때가 있습니다.",
+    "완벽주의자는 아니라고 생각하지만, 사람들에게 보여지는 결과물만큼은 '이 정도면 됐다'고 끝내기가 어렵습니다.",
+    "일을 많이 하는 것보다, 지금 제대로 된 일을 하고 있는지 알 수 없을 때 훨씬 더 지칩니다."]],
+  ["나를 평가하는 기준","마지막은, 아직 드러나지 않은 부분입니다.",[
+    "지금 하는 일이 싫은 건 아니지만, 가끔 '내 능력에 비해 아직 너무 작은 일을 하고 있는 건 아닐까'라는 생각이 듭니다.",
+    "남들이 보기엔 일을 꽤 잘하고 있는데, 정작 본인은 늘 '이 정도는 누구나 할 수 있는 거 아닌가?'라고 생각하는 경향이 있습니다.",
+    "실패 자체보다, 실패를 '나는 이 정도밖에 안 되는 사람인가?'라는 식으로 내 능력과 연결해서 생각할 때 더 힘들어집니다.",
+    "일을 더 키우고 싶으면서도, 커질수록 내가 좋아했던 방식으로 일하지 못하게 될까 봐 한편으로는 조금 불편한 마음이 있습니다.",
+    "지금의 삶이 나쁘다고 생각하지는 않지만, 이 상태가 앞으로 몇 년 동안 그대로 이어진다고 상상하면 이상하게 답답해집니다."]]
+];
+
+var $ = function(id){return document.getElementById(id);};
+if((new URLSearchParams(location.search).get('n'))==='bar') document.body.classList.add('nbar');
+
+var Q=new URLSearchParams(location.search), V=(Q.get('v')||'b').toLowerCase(), N=(Q.get('n')||'side'), FAST=Q.get('fast')==='1';
+var sleep = function(ms){return new Promise(function(r){setTimeout(r,ms*(FAST?0.08:1));});};
+var ORB = '<div class="halo"></div><div class="blob"></div><div class="hi"></div>';
+document.querySelectorAll('.orb').forEach(function(o){ o.innerHTML=ORB; });
+
+// 카운터 — 고정 시작 시각 기준이라 누가 언제 열어도 같은 숫자.
+// 초반: 평균 5.5초에 1명(간격 3~16초로 불규칙) / 이후: 1시간마다 ×1.09 복리가 따라잡으면 복리가 이김
+var START = new Date('2026-10-04T08:20:00+09:00').getTime();  // ★ 실제 오픈(릴스 업로드) 시각으로 교체
+function target(){
+  var sec = Math.max(0,(Date.now()-START)/1000);
+  var live = 768 + Math.floor(sec/5.5 + 0.35*Math.sin(sec/2.9));
+  var comp = Math.round(768*Math.pow(1.09, sec/3600));
+  return Math.max(live, comp);
+}
+var shown = target();
+function odo(n, bump){
+  var el=document.getElementById('odo'); if(!el) return;
+  var str=n.toLocaleString('ko-KR');
+  if(el.dataset.len!=str.length){
+    el.innerHTML=str.split('').map(function(ch){
+      return /\d/.test(ch) ? '<span class="d"><span class="col">'+'0123456789'.split('').map(function(x){return '<span>'+x+'</span>';}).join('')+'</span></span>' : '<span class="c">'+ch+'</span>';
+    }).join('');
+    el.dataset.len=str.length;
+  }
+  var cols=el.querySelectorAll('.col'), digits=str.replace(/\D/g,'');
+  for(var i=0;i<cols.length;i++) cols[i].style.transform='translateY(-'+digits[i]+'em)';
+  if(bump){ var p=document.getElementById('plus'); p.classList.remove('go'); void p.offsetWidth; p.classList.add('go'); }
+}
+function paint(bump){
+  odo(shown,bump);
+  var t = shown.toLocaleString('ko-KR');
+  document.querySelectorAll('.live .cnt, .pk .cnt, .cnt5').forEach(function(e){
+    e.textContent = t;
+    if(bump){ e.classList.add('bump'); setTimeout(function(){e.classList.remove('bump');},250); }
+  });
+}
+paint(false);
+setInterval(function(){ var g=target(); if(g>shown){ shown++; paint(true); } }, 180);
+
+// 저장 자리 — Supabase 연결 전 임시
+var state = {handle:'', score:null};
+// ── 수집: Supabase rk101_events 에 insert 만 한다(읽기·수정 권한 없음) ──
+var SB_URL = '';   // ★ 새 Supabase 프로젝트 URL (예: https://xxxx.supabase.co)
+var SB_KEY = '';   // ★ 새 프로젝트의 publishable(anon) 키
+var SID = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now())+Math.random().toString(16).slice(2);
+function track(event, extra){
+  if(!SB_URL || !SB_KEY) return;
+  var row = { session_id:SID, event:event, ig_handle:state.handle, consent:true, referrer:(document.referrer||null) };
+  for(var k in (extra||{})) row[k]=extra[k];
+  try{
+    fetch(SB_URL+'/rest/v1/rk101_events',{method:'POST',keepalive:true,
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify(row)}).catch(function(){});
+  }catch(e){}
+}
+function save(){ try{ sessionStorage.setItem('rk101', JSON.stringify(state)); }catch(e){} }
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.toggle('on', s.id===id);});
+  document.body.classList.toggle('dark', false);
+  document.body.classList.toggle('on5', id==='s5');
+  document.body.classList.toggle('pale', id==='s1'||id==='s2');
+  window.scrollTo(0,0);
+}
+
+// S1
+var handle=$('handle'), agree=$('agree'), go=$('go');
+function clean(v){ return v.replace(/^@+/,'').trim(); }
+function valid(){ go.disabled = !(/^[A-Za-z0-9._]{1,30}$/.test(clean(handle.value)) && agree.checked); }
+handle.addEventListener('input',valid); agree.addEventListener('change',valid);
+handle.addEventListener('keydown',function(e){ if(e.key==='Enter' && !go.disabled) go.click(); });
+$('openSheet').onclick=function(){ $('sheet').classList.add('on'); };
+$('closeSheet').onclick=function(){ $('sheet').classList.remove('on'); };
+$('sheet').onclick=function(e){ if(e.target===this) this.classList.remove('on'); };
+
+go.onclick=function(){
+  state.handle = clean(handle.value); save(); track('start');
+  $('who').textContent='@'+state.handle;
+  $('rname').textContent='@'+state.handle+' 님의 분석 결과';
+  show('s2'); runAnalysis();
+};
+
+// S2 — 5초 연출
+async function runAnalysis(){
+  var lines=['최근 게시물을 불러오고 있습니다…','캡션의 어휘 패턴을 읽고 있습니다…','업로드 시간대를 확인하고 있습니다…','일하는 성향을 정리하고 있습니다…'];
+  for(var i=0;i<lines.length;i++){
+    $('msg').style.opacity=0; await sleep(220);
+    $('msg').textContent=lines[i]; $('msg').style.opacity=1;
+    await sleep(1030);
+  }
+  show('s3'); runChat();
+}
+
+// S3 — 메시지가 도착하듯 하나씩. 사용자가 위로 올려 읽는 중이면 자동 스크롤하지 않음
+var chat=$('chat');
+function nearBottom(){ return (window.innerHeight+window.scrollY) >= document.body.scrollHeight-160; }
+function follow(){ window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}); }
+function add(html, cls){
+  var stick=nearBottom();
+  var d=document.createElement('div'); d.className=cls||'row'; d.innerHTML=html; chat.appendChild(d);
+  if(stick) follow();
+  return d;
+}
+var AV='<div class="orb av">'+ORB+'</div>';
+async function bot(html, typeMs, extra){
+  var t=add(AV+'<div class="bub typing"><i></i><i></i><i></i></div>');
+  await sleep(typeMs);
+  var stick=nearBottom();
+  t.innerHTML=AV+'<div class="bub">'+html+'</div>'+(extra||'');
+  t.style.animation='none'; void t.offsetWidth; t.style.animation='';
+  if(stick) follow();
+  return t;
+}
+// 입력창에 미리 써진 답장 + 깜빡이는 커서 + 엔터 버튼
+function chip(label){
+  return new Promise(function(res){
+    var c=$('composer');
+    $('ctext').textContent=label;
+    if(c.parentNode!==document.body) document.body.appendChild(c);  // 화면 전환 transform에 갇히지 않게
+    c.hidden=false; document.body.classList.add('typing');
+    setTimeout(function(){ c.classList.add('on'); follow(); },30);
+    function send(){
+      c.onclick=null; c.classList.remove('on'); document.body.classList.remove('typing');
+      setTimeout(function(){ c.hidden=true; },250);
+      add('<div class="bub">'+label+'</div>','row me'); follow(); res();
+    }
+    c.onclick=send;
+    if(FAST) setTimeout(send,400);
+  });
+}
+async function runChat(){
+  chat.innerHTML='';
+  var id='@'+state.handle;
+  var n=0;
+  for(var g=0; g<GROUPS.length; g++){
+    await sleep(450);
+    if(g===0){ await bot(GROUPS[g][1].replace('@ID',id), 750); }
+    else { await bot(GROUPS[g][1].replace('@ID',id)+'<br>확인해볼까요?', 750); await chip('결과 보여줘'); }
+    await sleep(300);
+    add('0'+(g+1)+' '+GROUPS[g][0],'sys');
+    for(var k=0;k<GROUPS[g][2].length;k++){
+      n++;
+      var txt=GROUPS[g][2][k];
+      await sleep(260);
+      var ty=500 + Math.min(700, txt.length*7);
+      if(N==='inline') await bot('<b class="ni">'+n+'.</b> '+txt, ty);
+      else if(N==='side') await bot(txt, ty, '<span class="ts">'+n+'/20</span>');
+      else if(N==='bar'){ await bot(txt, ty); $('pn').textContent=n; $('pline').style.width=(n/20*100)+'%'; }
+      else await bot('<span class="n">'+n+'</span>'+txt, ty);
+    }
+  }
+  await sleep(500);
+  await bot('20가지 분석을 모두 전달했습니다.', 700);
+  await sleep(500);
+  openRate();
+  follow();
+}
+
+// S4 — 점수 → 내 말풍선 → 평균 답장 → 버튼
+function openRate(){
+  var st=$('stat'); st.classList.add('vb'); document.body.classList.add('svb');
+  document.body.appendChild(st); st.hidden=false;   // 화면 전환 애니메이션의 transform에 갇히지 않게
+  var h=''; for(var i=0;i<=10;i++) h+='<button type="button" data-v="'+i+'"><i style="height:'+(16+i*2.6)+'px"></i>'+i+'</button>';
+  var seg=$('seg'); seg.innerHTML=h;
+  function setV(v){
+    state.score=v; $('mval').textContent=v; $('rateGo').disabled=false;
+    [].forEach.call(seg.children,function(x,i){ x.classList.toggle('f',i<=v); x.classList.toggle('on',i===v); });
+  }
+  function pick(e){ var el=document.elementFromPoint(e.clientX,e.clientY); var b=el&&el.closest('#seg button'); if(b) setV(+b.dataset.v); }
+  var down=false;
+  seg.addEventListener('pointerdown',function(e){ down=true; pick(e); });
+  window.addEventListener('pointermove',function(e){ if(down) pick(e); });
+  window.addEventListener('pointerup',function(){ down=false; });
+  setTimeout(function(){ st.classList.add('in'); },40);
+}
+$('rateGo').onclick=async function(){
+  if(state.score===null) return;
+  this.disabled=true; save(); track('score',{score:state.score});
+  add('<div class="bub">정확도 '+state.score+'점</div>','row me');
+  var st=$('stat'), rate=$('rate'), res=$('res');
+  rate.classList.add('out'); await sleep(320);
+  rate.hidden=true; res.hidden=false;
+  $('myScore').textContent=state.score;
+  odo(shown,false);
+  var dots=''; for(var i=0;i<20;i++) dots+='<i'+(i<18?' class="f"':'')+' style="transition-delay:'+(300+i*45)+'ms"></i>';
+  $('dots').innerHTML=dots;
+  setTimeout(function(){ res.classList.add('go'); },40);
+  st.appendChild($('cta')); await sleep(1500); $('cta').hidden=false;
+};
+
+// S5 — 반전(새 페이지처럼 히스토리 추가)
+$('toReveal').onclick=function(){ history.pushState({p:'reveal'},'','#reveal'); openReveal(); };
+function openReveal(){
+  show('s5');
+  if(!$('stat').hidden) $('stat').classList.add('peek');
+  fill5();
+  var els=document.querySelectorAll('#s5 .rv');
+  [].forEach.call(els,function(el){ el.classList.remove('in'); });
+  // 위에서부터 한 줄씩: 앞 줄이 뜬 뒤, 화면 안에 들어온 다음 줄만 띄운다
+  var i=0, last=performance.now()-600, GAP=[600,1300,1100,1000];
+  clearInterval(window.__rv);
+  window.__rv=setInterval(function(){
+    if(i>=els.length){ clearInterval(window.__rv); return; }
+    var el=els[i], gap=GAP[Math.min(i,GAP.length-1)];
+    if(performance.now()-last<gap) return;
+    if(el.getBoundingClientRect().top > innerHeight*0.9) return;
+    el.classList.add('in'); last=performance.now(); i++;
+  },120);
+}
+function fill5(){
+  var h='@'+(state.handle||'');
+  document.querySelectorAll('.h5').forEach(function(e){e.textContent=h;});
+  document.querySelectorAll('.s5s').forEach(function(e){e.textContent=state.score===null?'':state.score;});
+}
+// 시트: 손잡이·요약줄 탭 또는 위아래로 쓸어서 접기/펼치기
+(function(){
+  var st=$('stat'), y0=null;
+  function toggle(f){ if($('res').hidden) return; st.classList.toggle('peek', f); }
+  $('grab').onclick=function(){ toggle(); };
+  $('pk').onclick=function(){ toggle(false); };
+  st.addEventListener('pointerdown',function(e){ if(!e.target.closest('#seg')) y0=e.clientY; });
+  st.addEventListener('pointerup',function(e){ if(y0===null) return; var dy=e.clientY-y0; y0=null; if(dy>40) toggle(true); else if(dy<-40) toggle(false); });
+})();
+window.addEventListener('popstate',function(){ if(location.hash==='#reveal') openReveal(); else { show(state.score!==null?'s3':'s1'); $('stat').classList.remove('peek'); } });
+if(location.hash==='#reveal') openReveal();
+
+// 말하듯 커졌다 작아지는 진폭 (siri)
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  (function loop(ms){
+    var t=ms/1000;
+    document.querySelectorAll('.orb').forEach(function(o,i){
+      if(!o.offsetParent) return;
+      var k = o.classList.contains('xl') ? 2.1 : o.classList.contains('av') ? 1.4 : 1;
+      var a = (Math.sin(t*1.6*k+i)+0.6*Math.sin(t*2.7*k+1.3)+0.35*Math.sin(t*5.1*k+2.1))/1.95;
+      a = Math.max(0,(a+1)/2); a = a*a;
+      o.style.setProperty('--a', a.toFixed(3));
+      o.style.setProperty('--s', (1 + a*(k>2?0.08:0.045)).toFixed(4));
+    });
+    requestAnimationFrame(loop);
+  })(0);
+})();
+</script>
+</body>
+</html>
