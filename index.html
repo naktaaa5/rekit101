@@ -336,8 +336,10 @@ body.typing #s3{padding-bottom:110px}
 #s1{min-height:100svh;padding:calc(14px + env(safe-area-inset-top)) 24px calc(16px + env(safe-area-inset-bottom));justify-content:flex-start;gap:0}
 #s1 .mid{gap:18px;margin-top:2.5svh}
 #s1 .ttl{position:relative;top:3svh} /* 제목만 아래로 — 레이아웃 흐름은 그대로라 오브·입력창 위치 불변 */
-#s1 .input{width:60%;min-width:210px;margin:0 auto;height:48px}
-#s1 .input input{text-align:left}
+#s1 .input{--at:16px;width:60%;min-width:240px;margin:0 auto;height:48px}
+#s1 .input span{font-size:13px}
+/* 보이는 크기 13px. iOS는 16px 미만 입력창에 포커스하면 화면을 확대하므로 16px로 두고 축소해 보인다 */
+#s1 .input input{text-align:left;font-size:16px;flex:0 0 auto;width:calc((100% - var(--at)) / .8125);transform:scale(.8125);transform-origin:left center;margin-right:calc((100% - var(--at)) * -.2308)}
 #s1 .orbzone{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 0 16px}
 #s1 .hb{width:min(78vw,300px,36svh);margin:0}
 #s1 .field{gap:12px;margin-top:auto}
@@ -425,7 +427,7 @@ body.dark #s3 .orb.av .halo{background:radial-gradient(circle,rgba(255,140,120,.
       </div>
     </div>
     <div class="orbzone"><div class="hb"><img src="orb_ref.png" alt=""></div>
-      <label class="input"><span>@</span><input id="handle" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="인스타그램 아이디"></label>
+      <label class="input"><span>@</span><input id="handle" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="인스타그램 아이디를 입력하세요."></label>
     </div>
     <div class="field">
       <label class="consent"><input type="checkbox" id="agree"><span>[필수] 개인정보 수집·이용에 동의합니다. <button type="button" id="openSheet">내용 보기</button></span></label>
