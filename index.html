@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>일하는 성향 분석</title>
+<meta name="description" content="인스타 계정만 입력하면 당신의 일하는 성향이 분석됩니다">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="commel">
+<meta property="og:title" content="일하는 성향 분석 | commel">
+<meta property="og:description" content="인스타 계정만 입력하면 당신의 일하는 성향이 분석됩니다">
+<meta property="og:url" content="https://naktaaa5.github.io/rekit101/">
+<meta property="og:image" content="https://naktaaa5.github.io/rekit101/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://naktaaa5.github.io/rekit101/og.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
 :root{
@@ -20,7 +31,8 @@ body{margin:0;color:var(--ink);min-height:100svh;
 .screen{display:none;min-height:100svh;padding:28px 24px 40px;flex-direction:column}
 .screen.on{display:flex;animation:fadeIn .5s ease both}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.brand{font-size:11px;letter-spacing:.22em;color:var(--faint);font-weight:600;text-align:center}
+.brand{display:flex;justify-content:center}
+.brand img{height:22px;width:auto;display:block}
 
 /* ── blob ── */
 .orb{--s:1;--a:0;--spd:1;position:relative;transform:scale(var(--s));will-change:transform}
@@ -404,7 +416,7 @@ body.dark #s3 .orb.av .halo{background:radial-gradient(circle,rgba(255,140,120,.
 
   <!-- S1 입력 -->
   <section class="screen on" id="s1">
-    <div class="brand">RE:FEEEL</div>
+    <div class="brand"><img src="logo_commel.png" alt="commel"></div>
     <div class="mid">
       <div class="ttl">
         <h1><span>인스타 계정만 입력하면</span><br><span>당신의 일하는 성향이 분석됩니다</span></h1>
