@@ -317,6 +317,17 @@ body.typing #s3{padding-bottom:110px}
 #s5 .big2.one{white-space:nowrap;font-size:clamp(17px,5.3vw,24px);letter-spacing:-.04em}
 #s5 .mt{text-align:center;margin-top:34px;padding-top:40px}
 
+/* ── S1 인앱(인스타) 대응 배치 (2026-10-04): 제목 → 입력(60%) → 오브 → 동의 → 버튼, 한 화면에 들어오게 ── */
+#s1{min-height:100svh;padding:calc(14px + env(safe-area-inset-top)) 24px calc(16px + env(safe-area-inset-bottom));justify-content:flex-start;gap:0}
+#s1 .mid{gap:18px;margin-top:2.5svh}
+#s1 .input{width:60%;min-width:210px;margin:6px auto 0;height:48px}
+#s1 .input input{text-align:left}
+#s1 .orbzone{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;padding:8px 0}
+#s1 .hb{width:min(78vw,300px,36svh);margin:0}
+#s1 .field{gap:12px;margin-top:auto}
+#s1 .consent{justify-content:center;text-align:left}
+@media (max-height:640px){#s1 h1{font-size:18px}#s1 .mid{gap:12px;margin-top:1svh}#s1 .hb{width:min(70vw,30svh)}}
+
 /* ── dark scene (채팅 화면) ── */
 body{transition:background-color .8s}
 .app{z-index:1}
@@ -380,12 +391,12 @@ body.dark #s3 .orb.av .halo{background:radial-gradient(circle,rgba(255,140,120,.
         <h1><span>인스타 계정만 입력하면</span><br><span>당신의 일하는 성향이 분석됩니다</span></h1>
         <div class="live"><i></i><span>지금까지 <b class="cnt">768</b>명이 분석했습니다</span></div>
       </div>
-      <div class="hb"><img src="orb_ref.png" alt=""></div>
-    </div>
-    <div class="field">
       <label class="input"><span>@</span><input id="handle" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="인스타그램 아이디"></label>
-      <button class="pill" id="go" disabled>분석하기</button>
+    </div>
+    <div class="orbzone"><div class="hb"><img src="orb_ref.png" alt=""></div></div>
+    <div class="field">
       <label class="consent"><input type="checkbox" id="agree"><span>[필수] 개인정보 수집·이용에 동의합니다. <button type="button" id="openSheet">내용 보기</button></span></label>
+      <button class="pill" id="go" disabled>분석하기</button>
     </div>
   </section>
 
