@@ -498,7 +498,7 @@ document.querySelectorAll('.orb').forEach(function(o){ o.innerHTML=ORB; });
 
 // 카운터 — 고정 시작 시각 기준이라 누가 언제 열어도 같은 숫자.
 // 초반: 평균 5.5초에 1명(간격 3~16초로 불규칙) / 이후: 1시간마다 ×1.09 복리가 따라잡으면 복리가 이김
-var START = new Date('2026-10-04T08:20:00+09:00').getTime();  // ★ 실제 오픈(릴스 업로드) 시각으로 교체
+var START = new Date('2026-10-05T11:40:00+09:00').getTime();  // 릴스 업로드 시각(한국시간 10/5 11:40)
 function target(){
   var sec = Math.max(0,(Date.now()-START)/1000);
   var live = 768 + Math.floor(sec/5.5 + 0.35*Math.sin(sec/2.9));
