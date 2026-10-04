@@ -328,6 +328,11 @@ body.typing #s3{padding-bottom:110px}
 #s1 .consent{justify-content:center;text-align:left}
 @media (max-height:640px){#s1 h1{font-size:18px}#s1 .mid{gap:12px;margin-top:1svh}#s1 .hb{width:min(70vw,30svh)}}
 
+/* 메신저식 묶음: 이어지는 말풍선은 아바타 숨김 + 말꼬리 없음 */
+#s3 .row.cont .orb.av{visibility:hidden}
+#s3 .row.cont .bub{border-radius:20px}
+#s3 .chat .row + .row:not(.me){margin-top:-3px}
+
 /* ── dark scene (채팅 화면) ── */
 body{transition:background-color .8s}
 .app{z-index:1}
@@ -607,6 +612,9 @@ function add(html, cls){
 }
 var AV='<div class="orb av">'+ORB+'</div>';
 async function bot(html, typeMs, extra){
+  // 이어지는 봇 말풍선 묶음: 아바타·말꼬리는 마지막 말풍선에만(메신저 방식)
+  var prev=chat.lastElementChild;
+  if(prev && prev.classList.contains('row') && !prev.classList.contains('me')) prev.classList.add('cont');
   var t=add(AV+'<div class="bub typing"><i></i><i></i><i></i></div>');
   await sleep(typeMs);
   var stick=nearBottom();
@@ -640,7 +648,7 @@ async function runChat(){
   for(var g=0; g<GROUPS.length; g++){
     await sleep(450);
     if(g===0){ await bot(GROUPS[g][1].replace('@ID',id), 750); }
-    else { await bot(GROUPS[g][1].replace('@ID',id)+'<br>확인해볼까요?', 750); await chip('결과 보여줘'); }
+    else { await bot(GROUPS[g][1].replace('@ID',id), 750); await sleep(250); await bot('확인해볼까요?', 650); await chip('결과 보여줘'); }
     await sleep(300);
     add('0'+(g+1)+' '+GROUPS[g][0],'sys');
     for(var k=0;k<GROUPS[g][2].length;k++){
