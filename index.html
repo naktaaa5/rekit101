@@ -287,6 +287,14 @@ body.on5 .stat .cta{display:none}
 .composer:active .send{transform:scale(.94)}
 body.typing #s3{padding-bottom:110px}
 
+/* 꼬리표 라벨 · 인원수 정중앙 */
+.tag{display:inline-block;padding:1px 7px;margin:0 2px 0 0;border-radius:7px;background:#ece7ff;color:#4f3fc9;font-weight:700;line-height:1.55}
+#s5 .kick .tag{font-size:16px}
+.odo-row{justify-content:center;gap:2px}
+.odo-row .unit{font-size:52px;font-weight:800;line-height:1;letter-spacing:-.03em;color:#cbc6d6}
+.stat.vc .odo-row .unit{font-size:80px}
+.plus{right:auto;left:calc(100% + 6px)}
+
 /* ── dark scene (채팅 화면) ── */
 body{transition:background-color .8s}
 .app{z-index:1}
@@ -390,7 +398,7 @@ body.dark #s3 .orb.av .halo{background:radial-gradient(circle,rgba(255,140,120,.
       <div class="mine"><b id="myScore">10</b>점을 주셨네요.</div>
       <div class="lbl"><i></i>지금까지 분석한 사람</div>
       <div class="odo-row"><div class="odo" id="odo"></div><span class="unit">명</span><em class="plus" id="plus">+1</em></div>
-      <div class="avg">평균 <b>9점</b>으로 20개 중 <b>18개</b>가 맞다고 평가했습니다.</div>
+      <div class="avg">평균 <span class="tag">9점</span>으로 <span class="tag">20개 중 18개가 맞다</span>고 평가했습니다.</div>
       <div class="dots" id="dots"></div>
       </div>
     </div>
@@ -399,7 +407,7 @@ body.dark #s3 .orb.av .halo{background:radial-gradient(circle,rgba(255,140,120,.
 
   <!-- S5 반전 + 관련 RE:KIT -->
   <section class="screen" id="s5">
-    <div class="rv kick"><span class="h5">@</span> 님이 <b class="s5s"></b>점이라고 평가한 이 결과.</div>
+    <div class="rv kick"><span class="h5">@</span> 님이 <span class="tag s5s"></span>이라고 평가한 이 결과.</div>
     <div class="rv big">미안해요.<br>사실 <span class="cnt5">768</span>명 모두에게<br>똑같은 화면을 보여줬습니다.</div>
     <div class="rv mid">그리고 그들도 평균 9점을 줬죠.</div>
     <div class="rv body">당신의 인스타그램 계정은 한 번도 열어보지 않았습니다.<br>당신이 누군지 아무 정보도 없어요.</div>
@@ -673,7 +681,7 @@ function openReveal(){
 function fill5(){
   var h='@'+(state.handle||'');
   document.querySelectorAll('.h5').forEach(function(e){e.textContent=h;});
-  document.querySelectorAll('.s5s').forEach(function(e){e.textContent=state.score===null?'':state.score;});
+  document.querySelectorAll('.s5s').forEach(function(e){e.textContent=state.score===null?'':state.score+'점';});
 }
 // 시트: 손잡이·요약줄 탭 또는 위아래로 쓸어서 접기/펼치기
 (function(){
