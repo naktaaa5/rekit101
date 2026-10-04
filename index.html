@@ -320,9 +320,9 @@ body.typing #s3{padding-bottom:110px}
 /* ── S1 인앱(인스타) 대응 배치 (2026-10-04): 제목 → 입력(60%) → 오브 → 동의 → 버튼, 한 화면에 들어오게 ── */
 #s1{min-height:100svh;padding:calc(14px + env(safe-area-inset-top)) 24px calc(16px + env(safe-area-inset-bottom));justify-content:flex-start;gap:0}
 #s1 .mid{gap:18px;margin-top:2.5svh}
-#s1 .input{width:60%;min-width:210px;margin:6px auto 0;height:48px}
+#s1 .input{width:60%;min-width:210px;margin:0 auto;height:48px}
 #s1 .input input{text-align:left}
-#s1 .orbzone{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;padding:8px 0}
+#s1 .orbzone{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 0 16px}
 #s1 .hb{width:min(78vw,300px,36svh);margin:0}
 #s1 .field{gap:12px;margin-top:auto}
 #s1 .consent{justify-content:center;text-align:left}
@@ -332,6 +332,17 @@ body.typing #s3{padding-bottom:110px}
 #s3 .row.cont .orb.av{visibility:hidden}
 #s3 .row.cont .bub{border-radius:20px}
 #s3 .chat .row + .row:not(.me){margin-top:-3px}
+
+/* 101 강조 카드 + 무료 라벨 */
+#s5 .kits{padding-top:12px}
+#s5 .kit{position:relative}
+#s5 .kit.feat{border:1.5px solid #a99bff;box-shadow:0 0 0 4px rgba(169,155,255,.22),0 18px 36px -18px rgba(108,90,224,.7)}
+#s5 .kit .free{position:absolute;top:0;right:18px;translate:0 -50%;z-index:2;overflow:hidden;
+  padding:5px 12px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.02em;color:#fff;
+  background:linear-gradient(135deg,#7b66ff,#e46fb0);box-shadow:0 6px 16px -6px rgba(123,102,255,.8),0 0 0 3px var(--free-ring,#f3eef6)}
+#s5 .kit .free::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%);transform:translateX(-120%);animation:shine 2.8s ease-in-out 1s infinite}
+@keyframes shine{0%,55%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+@media (prefers-reduced-motion:reduce){#s5 .kit .free::after{animation:none}}
 
 /* ── dark scene (채팅 화면) ── */
 body{transition:background-color .8s}
@@ -394,11 +405,12 @@ body.dark #s3 .orb.av .halo{background:radial-gradient(circle,rgba(255,140,120,.
     <div class="mid">
       <div class="ttl">
         <h1><span>인스타 계정만 입력하면</span><br><span>당신의 일하는 성향이 분석됩니다</span></h1>
-        <div class="live"><i></i><span>지금까지 <b class="cnt">768</b>명이 분석했습니다</span></div>
+        <div class="live"><i></i><span>지금까지 <b class="cnt">768</b>명이 참여했습니다</span></div>
       </div>
+    </div>
+    <div class="orbzone"><div class="hb"><img src="orb_ref.png" alt=""></div>
       <label class="input"><span>@</span><input id="handle" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="인스타그램 아이디"></label>
     </div>
-    <div class="orbzone"><div class="hb"><img src="orb_ref.png" alt=""></div></div>
     <div class="field">
       <label class="consent"><input type="checkbox" id="agree"><span>[필수] 개인정보 수집·이용에 동의합니다. <button type="button" id="openSheet">내용 보기</button></span></label>
       <button class="pill" id="go" disabled>분석하기</button>
@@ -455,9 +467,10 @@ body.dark #s3 .orb.av .halo{background:radial-gradient(circle,rgba(255,140,120,.
     <div class="rv q">당신의 고객도,<br>방금의 당신처럼 고개를 끄덕이고 있나요?</div>
     <div class="rv mt">더 알고 싶다면</div>
     <div class="kits rv">
+      <a class="kit feat" href="https://refeeel.com/rekit101" target="_blank" rel="noopener"><span class="free">무료</span><div class="th" style="background-image:url('https://i.pinimg.com/1200x/d8/2d/93/d82d93b34ecdde6116d12072491b7076.jpg')"></div><div class="tx"><em>RE:KIT 101</em><b>이번에 제게 낚이셨다면 미안해요.</b><span>다들 같은 훅 공식을 쓴다. 그런데 어떤 문장은 내게 하는 말처럼 들린다.</span></div></a>
       <a class="kit" href="https://refeeel.com/rekit005" target="_blank" rel="noopener"><div class="th" style="background-image:url('https://i.pinimg.com/736x/41/2f/ec/412fec8f59b4818d37cf2e102652f97a.jpg')"></div><div class="tx"><em>RE:KIT 5</em><b>어떻게 제 마음을 아셨어요?</b><span>점쟁이와 마케터가 같이 쓰는 기술</span></div></a>
-      <a class="kit" href="https://refeeel.com/rekit099" target="_blank" rel="noopener"><div class="th ph">99</div><div class="tx"><em>RE:KIT 99</em><b>상대를 모르는데 설득을 한다?</b><span>수백 년간 사람을 설득해온 콜드리딩은 사기일까</span></div></a>
-      <a class="kit" href="https://refeeel.com/rekit100" target="_blank" rel="noopener"><div class="th ph">100</div><div class="tx"><em>RE:KIT 100</em><b>보면 산다? 우리가 하루에 보는 게 몇 갠데</b><span>공감 다음, 고객이 빠져나가는 자리</span></div></a>
+      <a class="kit" href="https://refeeel.com/rekit099" target="_blank" rel="noopener"><div class="th" style="background-image:url('https://i.pinimg.com/1200x/8f/7c/58/8f7c585b4331bacff9f237a158820759.jpg')"></div><div class="tx"><em>RE:KIT 99</em><b>상대를 모르는데 설득을 한다?</b><span>수 백년간 사람을 설득해온 콜드리딩은 사기일까?</span></div></a>
+      <a class="kit" href="https://refeeel.com/rekit100" target="_blank" rel="noopener"><div class="th" style="background-image:url('https://i.pinimg.com/1200x/a8/02/c2/a802c21b083d2736181d477d21af6597.jpg')"></div><div class="tx"><em>RE:KIT 100</em><b>보면 산다? 우리가 하루에 보는 게 몇 갠데</b><span>다들 비슷한 고민을 이야기한다. 그러나 저마다 고객이 이탈하는 곳은 달랐다.</span></div></a>
     </div>
   </section>
 
