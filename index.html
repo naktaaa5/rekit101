@@ -137,7 +137,7 @@ h1 span{white-space:nowrap}
 
 /* ── S5 ── */
 #s5{gap:26px;padding-top:12vh}
-.rv{opacity:0;transform:translateY(10px);transition:opacity .9s ease,transform .9s ease}
+.rv{opacity:0;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease}
 .rv.in{opacity:1;transform:none}
 .big{font-size:26px;line-height:1.45;font-weight:800;letter-spacing:-.03em}
 .body{font-size:16px;line-height:1.85;color:#3c3846}
@@ -248,7 +248,7 @@ body.nbar .pn,body.nbar .pline{display:block}
 body.on5 .stat .cta{display:none}
 /* 반전 페이지 */
 #s5{gap:30px;padding-top:14vh;padding-bottom:150px}
-#s5 .kick{font-size:17px;font-weight:600;color:var(--sub);line-height:1.6}
+#s5 .kick{font-size:17px;font-weight:600;color:var(--ink);line-height:1.6}
 #s5 .kick b{color:var(--ink)}
 #s5 .big{font-size:30px;line-height:1.4;font-weight:800;letter-spacing:-.035em}
 #s5 .big .cnt5{font-variant-numeric:tabular-nums;color:#6c5ae0}
@@ -309,6 +309,13 @@ body.typing #s3{padding-bottom:110px}
 /* 반전 페이지 마무리 */
 #s5 .q{text-align:left}
 #s5 .mt{font-size:22px;line-height:1.5;font-weight:800;letter-spacing:-.03em;border-top:1px solid var(--line);padding-top:26px;margin-top:6px}
+
+/* 수정 10/04 */
+.dnum{vertical-align:top}
+.dsent .odo{--dh:1.45em;height:1.45em;line-height:1.45}
+.dsent .odo .d,.dsent .odo .col span,.dsent .odo .c{height:1.45em;line-height:1.45}
+#s5 .big2.one{white-space:nowrap;font-size:clamp(17px,5.3vw,24px);letter-spacing:-.04em}
+#s5 .mt{text-align:center;margin-top:34px;padding-top:40px}
 
 /* ── dark scene (채팅 화면) ── */
 body{transition:background-color .8s}
@@ -427,7 +434,7 @@ body.dark #s3 .orb.av .halo{background:radial-gradient(circle,rgba(255,140,120,.
     <div class="rv body">당신의 인스타그램 계정은 한 번도 열어보지 않았습니다.<br>당신이 누군지 아무 정보도 없어요.</div>
     <div class="rv big2">그런데 왜<br>내 이야기 같았을까요?</div>
     <div class="rv body">1949년, 심리학자 버트럼 포러는 학생 39명에게 「당신의 성격 검사 결과」를 한 장씩 나눠줬습니다. 사실은 모두 같은 글이었죠. 학생들이 매긴 정확도는 5점 만점에 평균 4.26점이었습니다.<br><br>누구에게나 해당하는 말을, 그 사람만의 이야기처럼 건네는 기술. 점술가들은 이걸 <b>콜드리딩</b>이라고 부릅니다.</div>
-    <div class="rv big2">잘 파는 사람들은<br>이 기술을 압니다.</div>
+    <div class="rv big2 one">잘 파는 사람들은 이 기술을 압니다.</div>
     <div class="rv body">고객이 "어, 내 얘기네" 하는 순간, 광고는 더 이상 광고로 읽히지 않으니까요. 방금 <span class="h5">@</span> 님이 그랬던 것처럼요.</div>
     <div class="rv q">당신의 고객도,<br>방금의 당신처럼 고개를 끄덕이고 있나요?</div>
     <div class="rv mt">더 알고 싶다면</div>
@@ -484,8 +491,8 @@ var GROUPS = [
 var $ = function(id){return document.getElementById(id);};
 if((new URLSearchParams(location.search).get('n'))==='bar') document.body.classList.add('nbar');
 
-var Q=new URLSearchParams(location.search), V=(Q.get('v')||'b').toLowerCase(), N=(Q.get('n')||'side'), FAST=Q.get('fast')==='1';
-var sleep = function(ms){return new Promise(function(r){setTimeout(r,ms*(FAST?0.08:1));});};
+var V='b', N='side';
+var sleep = function(ms){return new Promise(function(r){setTimeout(r,ms);});};
 var ORB = '<div class="halo"></div><div class="blob"></div><div class="hi"></div>';
 document.querySelectorAll('.orb').forEach(function(o){ o.innerHTML=ORB; });
 
@@ -606,12 +613,13 @@ function chip(label){
     c.hidden=false; document.body.classList.add('typing');
     setTimeout(function(){ c.classList.add('on'); follow(); },30);
     function send(){
-      c.onclick=null; c.classList.remove('on'); document.body.classList.remove('typing');
+      c.onclick=null; document.removeEventListener('keydown',onKey); c.classList.remove('on'); document.body.classList.remove('typing');
       setTimeout(function(){ c.hidden=true; },250);
       add('<div class="bub">'+label+'</div>','row me'); follow(); res();
     }
     c.onclick=send;
-    if(FAST) setTimeout(send,400);
+    function onKey(e){ if(e.key==='Enter'){ e.preventDefault(); document.removeEventListener('keydown',onKey); send(); } }
+    document.addEventListener('keydown',onKey);
   });
 }
 async function runChat(){
@@ -683,7 +691,7 @@ function openReveal(){
   var els=document.querySelectorAll('#s5 .rv');
   [].forEach.call(els,function(el){ el.classList.remove('in'); });
   // 위에서부터 한 줄씩: 앞 줄이 뜬 뒤, 화면 안에 들어온 다음 줄만 띄운다
-  var i=0, last=performance.now()-600, GAP=[600,1300,1100,1000];
+  var i=0, last=performance.now()-600, GAP=[250,650,550,450];
   clearInterval(window.__rv);
   window.__rv=setInterval(function(){
     if(i>=els.length){ clearInterval(window.__rv); return; }
