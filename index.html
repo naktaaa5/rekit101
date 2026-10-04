@@ -533,8 +533,8 @@ setInterval(function(){ var g=target(); if(g>shown){ shown++; paint(true); } }, 
 // 저장 자리 — Supabase 연결 전 임시
 var state = {handle:'', score:null};
 // ── 수집: Supabase rk101_events 에 insert 만 한다(읽기·수정 권한 없음) ──
-var SB_URL = '';   // ★ 새 Supabase 프로젝트 URL (예: https://xxxx.supabase.co)
-var SB_KEY = '';   // ★ 새 프로젝트의 publishable(anon) 키
+var SB_URL = 'https://icqznthgglvmpxshrloh.supabase.co';
+var SB_KEY = 'sb_publishable_uuoKU0ALFadUluwBfh_vhQ_Fyxws4d2';   // 공개용 키: rk101_events 에 insert 만 허용(조회 불가)
 var SID = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now())+Math.random().toString(16).slice(2);
 function track(event, extra){
   if(!SB_URL || !SB_KEY) return;

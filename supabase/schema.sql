@@ -1,4 +1,4 @@
--- RE:KIT 101 성향 분석 페이지 수집 표 (새 Supabase 프로젝트 전용)
+-- RE:KIT 101 성향 분석 페이지 수집 표 (AX 콕핏 Supabase 에 적용됨, 2026-10-04 migration rk101_events)
 -- 한 방문 = session_id 하나. 아이디 제출 시 'start', 정확도 제출 시 'score' 한 줄씩 insert 한다.
 -- 공개 페이지는 insert 만 가능하고, 읽기·수정·삭제는 막혀 있다(대시보드·service_role 로만 조회).
 create table if not exists public.rk101_events (
