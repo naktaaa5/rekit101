@@ -295,6 +295,21 @@ body.typing #s3{padding-bottom:110px}
 .stat.vc .odo-row .unit{font-size:80px}
 .plus{right:auto;left:calc(100% + 6px)}
 
+/* 결과 시트 D안 */
+.res{align-items:stretch}
+.dmine{align-self:flex-start;font-size:13px;font-weight:700;color:#5b49d6;background:#efebff;padding:4px 11px;border-radius:999px}
+.dsent{font-size:24px;line-height:1.45;font-weight:800;letter-spacing:-.03em;margin:14px 0 16px;text-align:left}
+.dnum{position:relative;display:inline-block;vertical-align:bottom;color:#6c5ae0}
+.dsent .odo{--dh:1.2em;font-size:1em;height:1.2em;line-height:1.2;align-items:flex-end;display:inline-flex;vertical-align:bottom}
+.dsent .odo .d,.dsent .odo .col span,.dsent .odo .c{height:1.2em;line-height:1.2}
+.dsent .plus{left:50%;right:auto;top:-14px;translate:-50% 0;font-size:12px}
+.res .dots{grid-template-columns:repeat(20,1fr);gap:4px;max-width:none;margin:0}
+.res .dots i{background:rgba(160,140,200,.2)}
+.dcap{font-size:12px;color:var(--sub);margin-top:8px;text-align:left}
+/* 반전 페이지 마무리 */
+#s5 .q{text-align:left}
+#s5 .mt{font-size:22px;line-height:1.5;font-weight:800;letter-spacing:-.03em;border-top:1px solid var(--line);padding-top:26px;margin-top:6px}
+
 /* ── dark scene (채팅 화면) ── */
 body{transition:background-color .8s}
 .app{z-index:1}
@@ -395,11 +410,10 @@ body.dark #s3 .orb.av .halo{background:radial-gradient(circle,rgba(255,140,120,.
         <button class="pill" id="rateGo" disabled>평가 완료</button>
       </div>
       <div class="res" id="res" hidden>
-      <div class="mine"><b id="myScore">10</b>점을 주셨네요.</div>
-      <div class="lbl"><i></i>지금까지 분석한 사람</div>
-      <div class="odo-row"><div class="odo" id="odo"></div><span class="unit">명</span><em class="plus" id="plus">+1</em></div>
-      <div class="avg">평균 <span class="tag">9점</span>으로 <span class="tag">20개 중 18개가 맞다</span>고 평가했습니다.</div>
+      <div class="dmine"><span id="myScore">10</span>점을 주셨네요</div>
+      <div class="dsent">지금까지 <span class="dnum"><span class="odo" id="odo"></span><em class="plus" id="plus">+1</em></span>명이<br>평균 9점, 20개 중 18개가<br>맞다고 평가했습니다.</div>
       <div class="dots" id="dots"></div>
+      <div class="dcap">평균적으로 맞다고 한 문장 18 / 20</div>
       </div>
     </div>
     <div class="cta" id="cta" hidden><button class="pill" id="toReveal">이 결과가 어떻게 나왔는지가 궁금하다면?</button></div>
@@ -409,13 +423,14 @@ body.dark #s3 .orb.av .halo{background:radial-gradient(circle,rgba(255,140,120,.
   <section class="screen" id="s5">
     <div class="rv kick"><span class="h5">@</span> 님이 <span class="tag s5s"></span>이라고 평가한 이 결과.</div>
     <div class="rv big">미안해요.<br>사실 <span class="cnt5">768</span>명 모두에게<br>똑같은 화면을 보여줬습니다.</div>
-    <div class="rv mid">그리고 그들도 평균 9점을 줬죠.</div>
+    <div class="rv mid">그리고 그들<span id="eun">도</span> 평균 9점을 줬죠.</div>
     <div class="rv body">당신의 인스타그램 계정은 한 번도 열어보지 않았습니다.<br>당신이 누군지 아무 정보도 없어요.</div>
     <div class="rv big2">그런데 왜<br>내 이야기 같았을까요?</div>
     <div class="rv body">1949년, 심리학자 버트럼 포러는 학생 39명에게 「당신의 성격 검사 결과」를 한 장씩 나눠줬습니다. 사실은 모두 같은 글이었죠. 학생들이 매긴 정확도는 5점 만점에 평균 4.26점이었습니다.<br><br>누구에게나 해당하는 말을, 그 사람만의 이야기처럼 건네는 기술. 점술가들은 이걸 <b>콜드리딩</b>이라고 부릅니다.</div>
     <div class="rv big2">잘 파는 사람들은<br>이 기술을 압니다.</div>
     <div class="rv body">고객이 "어, 내 얘기네" 하는 순간, 광고는 더 이상 광고로 읽히지 않으니까요. 방금 <span class="h5">@</span> 님이 그랬던 것처럼요.</div>
-    <div class="rv q">당신의 고객도,<br>방금의 당신처럼 고개를 끄덕이고 있나요?<br><br>더 알고 싶다면</div>
+    <div class="rv q">당신의 고객도,<br>방금의 당신처럼 고개를 끄덕이고 있나요?</div>
+    <div class="rv mt">더 알고 싶다면</div>
     <div class="kits rv">
       <a class="kit" href="https://refeeel.com/rekit005" target="_blank" rel="noopener"><div class="th" style="background-image:url('https://i.pinimg.com/736x/41/2f/ec/412fec8f59b4818d37cf2e102652f97a.jpg')"></div><div class="tx"><em>RE:KIT 5</em><b>어떻게 제 마음을 아셨어요?</b><span>점쟁이와 마케터가 같이 쓰는 기술</span></div></a>
       <a class="kit" href="https://refeeel.com/rekit099" target="_blank" rel="noopener"><div class="th ph">99</div><div class="tx"><em>RE:KIT 99</em><b>상대를 모르는데 설득을 한다?</b><span>수백 년간 사람을 설득해온 콜드리딩은 사기일까</span></div></a>
@@ -494,7 +509,7 @@ function odo(n, bump){
     el.dataset.len=str.length;
   }
   var cols=el.querySelectorAll('.col'), digits=str.replace(/\D/g,'');
-  for(var i=0;i<cols.length;i++) cols[i].style.transform='translateY(-'+digits[i]+'em)';
+  for(var i=0;i<cols.length;i++) cols[i].style.transform='translateY(calc(-'+digits[i]+' * var(--dh,1em)))';
   if(bump){ var p=document.getElementById('plus'); p.classList.remove('go'); void p.offsetWidth; p.classList.add('go'); }
 }
 function paint(bump){
@@ -681,6 +696,7 @@ function openReveal(){
 function fill5(){
   var h='@'+(state.handle||'');
   document.querySelectorAll('.h5').forEach(function(e){e.textContent=h;});
+  var eu=document.getElementById('eun'); if(eu) eu.textContent=(state.score!==null&&state.score>=8)?'도':'은';
   document.querySelectorAll('.s5s').forEach(function(e){e.textContent=state.score===null?'':state.score+'점';});
 }
 // 시트: 손잡이·요약줄 탭 또는 위아래로 쓸어서 접기/펼치기
