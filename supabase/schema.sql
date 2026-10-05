@@ -26,3 +26,9 @@ select session_id,
        max(created_at) filter (where event='score')     as scored_at
 from public.rk101_events group by session_id;
 revoke all on public.rk101_summary from anon, authenticated;
+
+-- 2026-10-05 migration rk101_events_funnel_click: 이탈 지점·RE:KIT 클릭 기록
+--   event 에 view(입장, 아이디 없음)·step(target=chat|g2|g3|g4|rate|reveal|end)·click(target=rekitNNN) 추가.
+--   ig_handle 은 view 에만 비고, 아이디가 있으면 consent=true 필수. step/click 은 target 필수.
+--   조회: rk101_summary(방문별 last_step·clicks) · rk101_funnel(단계별 도달 수) · rk101_clicks(편별 클릭)
+--   정의 전문은 Supabase 마이그레이션 기록 참조.

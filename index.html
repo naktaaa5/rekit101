@@ -585,7 +585,7 @@ var SB_KEY = 'sb_publishable_uuoKU0ALFadUluwBfh_vhQ_Fyxws4d2';   // 공개용 �
 var SID = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now())+Math.random().toString(16).slice(2);
 function track(event, extra){
   if(!SB_URL || !SB_KEY) return;
-  var row = { session_id:SID, event:event, ig_handle:state.handle, consent:true, referrer:(document.referrer||null) };
+  var row = { session_id:SID, event:event, ig_handle:(state.handle||null), consent:(state.handle?true:null), referrer:(document.referrer||null) };
   for(var k in (extra||{})) row[k]=extra[k];
   try{
     fetch(SB_URL+'/rest/v1/rk101_events',{method:'POST',keepalive:true,
@@ -593,6 +593,10 @@ function track(event, extra){
       body:JSON.stringify(row)}).catch(function(){});
   }catch(e){}
 }
+// 이탈 지점 기록: 같은 단계는 한 번만
+var stepped={};
+function step(name){ if(stepped[name]) return; stepped[name]=1; track('step',{target:name}); }
+track('view');
 function save(){ try{ sessionStorage.setItem('rk101', JSON.stringify(state)); }catch(e){} }
 
 function show(id){
@@ -681,8 +685,8 @@ async function runChat(){
   var n=0;
   for(var g=0; g<GROUPS.length; g++){
     await sleep(450);
-    if(g===0){ await bot(GROUPS[g][1].replace('@ID',id), 750); }
-    else { await bot(GROUPS[g][1].replace('@ID',id), 750); await sleep(250); await bot('확인해볼까요?', 650); await chip('결과 보여줘'); }
+    if(g===0){ step('chat'); await bot(GROUPS[g][1].replace('@ID',id), 750); }
+    else { await bot(GROUPS[g][1].replace('@ID',id), 750); await sleep(250); await bot('확인해볼까요?', 650); await chip('결과 보여줘'); step('g'+(g+1)); }
     await sleep(300);
     add('0'+(g+1)+' '+GROUPS[g][0],'sys');
     for(var k=0;k<GROUPS[g][2].length;k++){
@@ -705,6 +709,7 @@ async function runChat(){
 
 // S4 — 점수 → 내 말풍선 → 평균 답장 → 버튼
 function openRate(){
+  step('rate');
   var st=$('stat'); st.classList.add('vb'); document.body.classList.add('svb');
   document.body.appendChild(st); st.hidden=false;   // 화면 전환 애니메이션의 transform에 갇히지 않게
   var h=''; for(var i=0;i<=10;i++) h+='<button type="button" data-v="'+i+'"><i style="height:'+(16+i*2.6)+'px"></i>'+i+'</button>';
@@ -738,7 +743,7 @@ $('rateGo').onclick=async function(){
 // S5 — 반전(새 페이지처럼 히스토리 추가)
 $('toReveal').onclick=function(){ history.pushState({p:'reveal'},'','#reveal'); openReveal(); };
 function openReveal(){
-  show('s5');
+  show('s5'); step('reveal');
   if(!$('stat').hidden) $('stat').classList.add('peek');
   fill5();
   var els=document.querySelectorAll('#s5 .rv');
@@ -747,13 +752,17 @@ function openReveal(){
   var i=0, last=performance.now()-600, GAP=[250,650,550,450];
   clearInterval(window.__rv);
   window.__rv=setInterval(function(){
-    if(i>=els.length){ clearInterval(window.__rv); return; }
+    if(i>=els.length){ clearInterval(window.__rv); step('end'); return; }
     var el=els[i], gap=GAP[Math.min(i,GAP.length-1)];
     if(performance.now()-last<gap) return;
     if(el.getBoundingClientRect().top > innerHeight*0.9) return;
     el.classList.add('in'); last=performance.now(); i++;
   },120);
 }
+// RE:KIT 카드 클릭 기록(target = rekit101 등)
+document.querySelectorAll('#s5 .kits a').forEach(function(a){
+  a.addEventListener('click',function(){ var m=a.href.match(/rekit\d+/); track('click',{target:m?m[0]:'kit'}); });
+});
 function fill5(){
   var h='@'+(state.handle||'');
   document.querySelectorAll('.h5').forEach(function(e){e.textContent=h;});
